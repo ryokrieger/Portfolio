@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+    <div class="hero__inner">
+
+        <!-- Left column: identity -->
+        <div class="hero__name-block">
+            <div class="hero__avatar-wrap">
+                <img src="{% static 'dashboard/img/profile.jpg' %}" alt="Farhan Shahid" class="hero__avatar" onerror="this.parentElement.classList.add('hero__avatar-wrap--fallback')">
+                <div class="hero__avatar-fallback">FS</div>
+            </div>
+
+            <p class="hero__handle">RYOKRIEGER</p>
+            <h1 class="hero__name">Farhan<br>Shahid.</h1>
+            <p class="hero__tagline">{{ tagline }}</p>
+
+            <!-- Language chips -->
+            <div class="lang-block">
+                <div class="lang-row">
+                    <span class="lang-row__label">Fluent in</span>
+                    <div class="lang-row__chips">
+                        {% for lang in languages.fluent %}
+                        <span class="lang-chip lang-chip--fluent">{{ lang }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="lang-row">
+                    <span class="lang-row__label">Working on</span>
+                    <div class="lang-row__chips">
+                        {% for lang in languages.working_on %}
+                        <span class="lang-chip lang-chip--working">{{ lang }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="lang-row">
+                    <span class="lang-row__label">Programming</span>
+                    <div class="lang-row__chips">
+                        {% for lang in languages.programming %}
+                        <span class="lang-chip lang-chip--code">{{ lang }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right column: bio + social -->
+        <div class="hero__bio">
+            <p>{{ bio }}</p>
+        </div>
+
+        <div class="hero__social">
+            {% for link in social_links %}
+            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="{{ link.platform }}">
+                <i class="{{ link.fa_icon }} social-link__icon"></i>
+                <span class="social-link__label">{{ link.label }}</span>
+            </a>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     WHAT I'M BUILDING
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section">
+    <h2 class="section__title">What I'm building</h2>
+
+    <div class="building-grid">
+
+        <!-- Left: GitHub -->
+        <div class="building-grid__github">
+            <div class="subsection-header">
+                <a href="{{ github_profile_url }}" target="_blank" rel="noopener noreferrer" class="subsection-header__link">
+                    <i class="fa-brands fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <span class="subsection-header__username">{{ github_username }}</span>
+            </div>
+
+            <div class="repo-grid">
+                {% for repo in github_repos %}
+                <a href="{{ repo.url }}" target="_blank" rel="noopener noreferrer" class="repo-card" data-api-url="{{ repo.api_url }}">
+                    <div class="repo-card__header">
+                        <span class="repo-card__name">{{ repo.name }}</span>
+                        <span class="repo-card__stars" data-repo="{{ repo.name }}">
+                            <i class="fa-solid fa-star" style="font-size:10px;"></i>
+                            <span>—</span>
+                        </span>
+                    </div>
+                    <p class="repo-card__desc" data-repo-desc="{{ repo.name }}">{{ repo.description }}</p>
+                    <span class="repo-card__lang" data-repo-lang="{{ repo.name }}"></span>
+                </a>
+                {% endfor %}
+            </div>
+
+            <div class="gh-chart">
+                <img src="{{ github_chart_url }}" alt="GitHub contribution chart" class="gh-chart__img" loading="lazy">
+            </div>
+        </div>
+
+        <!-- Right: Codeforces -->
+        <div class="building-grid__cp">
+            <div class="subsection-header">
+                <a href="{{ codeforces.profile_url }}" target="_blank" rel="noopener noreferrer" class="subsection-header__link">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Codeforces</span>
+                </a>
+                <span class="subsection-header__username">{{ codeforces.username }}</span>
+            </div>
+
+            <div class="cp-card" id="codeforces-card"
+                 data-cf-handle="{{ codeforces.username }}"
+                 data-cf-info-url="{{ codeforces.api_info_url }}"
+                 data-cf-status-url="{{ codeforces.api_status_url }}">
+                <div class="cf-stats">
+                    <div class="cf-stat">
+                        <span class="cf-stat__label">Rating</span>
+                        <span class="cf-stat__value" id="cf-rating">—</span>
+                    </div>
+                    <div class="cf-stat">
+                        <span class="cf-stat__label">Max rating</span>
+                        <span class="cf-stat__value" id="cf-max-rating">—</span>
+                    </div>
+                    <div class="cf-stat">
+                        <span class="cf-stat__label">Rank</span>
+                        <span class="cf-stat__value cf-stat__value--rank" id="cf-rank">—</span>
+                    </div>
+                    <div class="cf-stat">
+                        <span class="cf-stat__label">Problems solved</span>
+                        <span class="cf-stat__value" id="cf-solved">—</span>
+                    </div>
+                </div>
+
+                <div class="cf-chart-wrap">
+                    <p class="cf-chart-label">Rating history</p>
+                    <div style="height:140px;">
+                        <canvas id="cf-rating-chart" class="cf-chart"></canvas>
+                        <p id="cf-chart-empty" class="cf-chart-empty" style="display:none;">No rating history yet.</p>
+                    </div>
+                </div>
+
+                <div class="cf-heatmap-wrap">
+                    <p class="cf-chart-label">Submission activity <span class="cf-heatmap-range">(last 26 weeks)</span></p>
+                    <div id="cf-heatmap" class="cf-heatmap"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     WHAT I'M INTO
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="section">
+
+    <!-- Spotify -->
+    <div class="taste-block">
+        <div class="taste-block__header">
+            <a href="{{ spotify.profile_url }}" target="_blank" rel="noopener noreferrer" class="subsection-header__link">
+                <i class="fa-brands fa-spotify"></i>
+                <span>Spotify</span>
+            </a>
+            <span class="taste-block__subtitle">artists I love to listen to</span>
+        </div>
+
+        <div class="spotify-layout">
+            <div class="artist-row">
+                {% for artist in spotify.artists %}
+                <a href="{{ artist.url }}" target="_blank" rel="noopener noreferrer" class="artist-card">
+                    <div class="artist-card__img-wrap">
+                        <img src="{% static 'dashboard/img/artists/' %}{{ artist.image_filename }}" alt="{{ artist.name }}" class="artist-card__img" loading="lazy">
+                        <span class="artist-card__initials">{{ artist.name|slice:":2"|upper }}</span>
+                    </div>
+                    <span class="artist-card__name">{{ artist.name }}</span>
+                </a>
+                {% endfor %}
+            </div>
+
+            <div class="playlist-wrap">
+                <iframe src="{{ spotify.playlist_embed_url }}" class="playlist-embed" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify playlist"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube -->
+    <div class="taste-block">
+        <div class="taste-block__header">
+            <a href="{{ youtube.own_channel_url }}" target="_blank" rel="noopener noreferrer" class="subsection-header__link">
+                <i class="fa-brands fa-youtube"></i>
+                <span>YouTube</span>
+            </a>
+            <span class="taste-block__subtitle">youtubers I am obsessed with</span>
+        </div>
+
+        <div class="yt-grid">
+            {% for channel in youtube.favourites %}
+            <a href="{{ channel.url }}" target="_blank" rel="noopener noreferrer" class="yt-card">
+                <div class="yt-card__avatar">
+                    <img src="{% static 'dashboard/img/youtube/' %}{{ channel.image_filename }}" alt="{{ channel.name }}" class="yt-card__avatar-img" loading="lazy" onerror="this.style.display='none'">
+                    <span class="yt-card__initials">{{ channel.initials }}</span>
+                </div>
+                <span class="yt-card__name">{{ channel.name }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Letterboxd -->
+    <div class="taste-block">
+        <div class="taste-block__header">
+            <a href="{{ letterboxd.profile_url }}" target="_blank" rel="noopener noreferrer" class="subsection-header__link">
+                <i class="fa-solid fa-film"></i>
+                <span>Letterboxd</span>
+            </a>
+            <span class="taste-block__subtitle">four films I return to</span>
+        </div>
+
+        <div class="film-grid">
+            {% for film in letterboxd.films %}
+            <a href="{{ film.film_url }}" target="_blank" rel="noopener noreferrer" class="film-card">
+                <div class="film-card__poster-wrap">
+                    <img src="{% static 'dashboard/img/films/' %}{{ film.poster_filename }}" alt="{{ film.title }}" class="film-card__poster" loading="lazy">
+                </div>
+                <div class="film-card__info">
+                    <span class="film-card__title">{{ film.title }}</span>
+                    <span class="film-card__year">{{ film.year }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Goodreads -->
+    <div class="taste-block">
+        <div class="taste-block__header">
+            <a href="{{ goodreads.profile_url }}" target="_blank" rel="noopener noreferrer" class="subsection-header__link">
+                <i class="fa-solid fa-book"></i>
+                <span>Goodreads</span>
+            </a>
+            <span class="taste-block__subtitle">books I hold dear</span>
+        </div>
+
+        <div class="book-grid">
+            {% for book in goodreads.books %}
+            <a href="{{ book.book_url }}" target="_blank" rel="noopener noreferrer" class="book-card">
+                <div class="book-card__cover-wrap">
+                    <img src="{% static 'dashboard/img/books/' %}{{ book.cover_filename }}" alt="{{ book.title }}" class="book-card__cover" loading="lazy">
+                </div>
+                <div class="book-card__info">
+                    <span class="book-card__title">{{ book.title }}</span>
+                    <span class="book-card__author">{{ book.author }}</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <p class="site-footer__text">
+        Built with Django &middot; Deployed on Vercel &middot; <a href="https://github.com/ryokrieger/Portfolio" target="_blank" rel="noopener noreferrer">Source</a>
+    </p>
+</footer>
+
+{% endblock %}
