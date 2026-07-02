@@ -1,6 +1,6 @@
 # Personal Portfolio Dashboard
 
-Cooked up a portfolio with Django and plain HTML/CSS. It pulls live GitHub and Codeforces data and even writes my bio using Llama.
+Cooked up a portfolio with Django and plain HTML/CSS. It pulls live GitHub and Codeforces data and even writes my bio using GROQ AI.
 
 **Live site:** [ryokrieger.vercel.app](https://ryokrieger.vercel.app/)
 
@@ -12,7 +12,7 @@ Cooked up a portfolio with Django and plain HTML/CSS. It pulls live GitHub and C
 |---|---|
 | Backend | Django 4.2 (Python) |
 | Database | PostgreSQL (Neon) |
-| AI | GROQ API — `llama-3.3-70b-versatile` |
+| AI | GROQ API — `openai/gpt-oss-120b` |
 | Frontend | HTML + CSS |
 | Charts | Chart.js |
 | Icons | Font Awesome 6 |
@@ -28,7 +28,7 @@ Cooked up a portfolio with Django and plain HTML/CSS. It pulls live GitHub and C
 
 ### Strategy Pattern — `groq_service.py`
 The bio service has two strategies:
-- **Primary:** Generate a bio using the GROQ Llama 3.3 API.
+- **Primary:** Generate a bio using the GROQ GPT OSS 120B API.
 - **Fallback:** Return a predefined static bio if the API is unavailable.
 
 The application calls `get_bio()` without knowing which strategy is used.
