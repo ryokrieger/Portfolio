@@ -84,7 +84,7 @@ def get_bio() -> str:
         client = Groq(api_key=api_key)
 
         response = client.chat.completions.create(
-            model="qwen/qwen3-32b",
+            model="openai/gpt-oss-20b",
             messages=[
                 {
                     "role": "system",
