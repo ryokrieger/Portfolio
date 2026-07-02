@@ -12,7 +12,7 @@ Cooked up a portfolio with Django and plain HTML/CSS. It pulls live GitHub and C
 |---|---|
 | Backend | Django 4.2 (Python) |
 | Database | PostgreSQL (Neon) |
-| AI | GROQ API — `openai/gpt-oss-120b` |
+| AI | GROQ API — `qwen/qwen3-32b` |
 | Frontend | HTML + CSS |
 | Charts | Chart.js |
 | Icons | Font Awesome 6 |
@@ -28,7 +28,7 @@ Cooked up a portfolio with Django and plain HTML/CSS. It pulls live GitHub and C
 
 ### Strategy Pattern — `groq_service.py`
 The bio service has two strategies:
-- **Primary:** Generate a bio using the GROQ GPT OSS 120B API.
+- **Primary:** Generate a bio using the GROQ qwen/qwen3-32b API.
 - **Fallback:** Return a predefined static bio if the API is unavailable.
 
 The application calls `get_bio()` without knowing which strategy is used.
