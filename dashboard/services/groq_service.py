@@ -41,7 +41,7 @@ Facts to weave in naturally (do NOT list them — blend them):
   4. Portfolio — a personal portfolio dashboard
 - He is building problem-solving skills through Codeforces — this is a discipline he is developing, not his identity
 - Languages: fluent in Bangla and English, aspiring to be multilingual — currently learning French
-- Music: Adele, Joji, Panic! At The Disco, mxmtoon
+- Music: Adele, Joji, Kendrick Lamar, Panic! At The Disco
 - YouTube: PewDiePie, Simone Giertz, Sidemen, FutureCanoe
 - Films: Amélie, Sentimental Value, Jojo Rabbit, Everything Everywhere All at Once
 - Home: Dhaka

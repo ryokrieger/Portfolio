@@ -85,14 +85,14 @@ SPOTIFY = {
             "image_filename": "joji.jpg",
         },
         {
+            "name": "Kendrick Lamar",
+            "url": "https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg",
+            "image_filename": "kendricklamar.jpg",
+        },
+        {
             "name": "Panic! At The Disco",
             "url": "https://open.spotify.com/artist/20JZFwl6HVl6yg8a4H3ZqK",
             "image_filename": "panicatthedisco.jpg",
-        },
-        {
-            "name": "mxmtoon",
-            "url": "https://open.spotify.com/artist/0HthCchcL0kVLHTr113Vk1",
-            "image_filename": "mxmtoon.jpg",
         },
     ],
 }
